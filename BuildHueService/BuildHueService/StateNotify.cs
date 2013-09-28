@@ -7,6 +7,7 @@ using System.ServiceModel.Web;
 using System.Text;
 using System.Threading.Tasks;
 using NLog;
+using TeamCityTrafficLightsConfigurator.Management;
 
 namespace BuildHueService
 {
@@ -54,6 +55,7 @@ namespace BuildHueService
                 }
 
             }
+            //SchedulerManager.Instance.PushNewResults(lightStatuses);
 
         }
 

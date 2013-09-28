@@ -11,8 +11,11 @@ namespace TeamCityTrafficLightsConfigurator.Management
 {
     public class Lights
     {
+        private RestClient restClient;
+        
         public Lights(string bridgeIP)
         {
+            restClient = new RestClient(bridgeIP);
             this.bridgeIP = bridgeIP;
         }
 
@@ -21,6 +24,7 @@ namespace TeamCityTrafficLightsConfigurator.Management
 
 
             var client = new RestClient(bridgeIP);
+            
 
             var request = new RestRequest("api/newdeveloper", Method.GET);
 
@@ -164,7 +168,6 @@ namespace TeamCityTrafficLightsConfigurator.Management
 
         public string ChangeColour(string developerName, int lightId, int sat, int bri, int hue)
         {
-            var client = new RestClient(bridgeIP);
 
             var request = new RestRequest("api/{username}/lights/{lightId}/state", Method.PUT);
             request.AddUrlSegment("username", developerName);
@@ -176,11 +179,10 @@ namespace TeamCityTrafficLightsConfigurator.Management
 
             request.OnBeforeDeserialization = resp => { resp.ContentType = "application/json"; };
 
-            IRestResponse response = client.Execute(request);
-            var content = response.Content;
-
+            restClient.ExecuteAsync(request, response => {});
+            
             //todo return normal result
-            return content;
+            return "";
         }
 
 

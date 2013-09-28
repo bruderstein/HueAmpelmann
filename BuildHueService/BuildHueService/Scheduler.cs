@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
+using System.Net;
+using System.ServiceModel.Security;
 using System.Threading;
 using System.Web;
 
@@ -10,12 +12,16 @@ namespace TeamCityTrafficLightsConfigurator.Management
     public class SchedulerManager
     {
         public static SchedulerManager Instance { get { return lazy.Value; } }
-        
+
+        static SchedulerManager()
+        {
+            ServicePointManager.DefaultConnectionLimit = 10;
+        }
 
         public void CreateScheduler(int lightId, int interval, string ip, string username)
         {
             var scheduler = new Scheduler(lightId, interval, ip, username);
-            schedulers.Add(scheduler);
+            schedulers.Add(lightId, scheduler);
             var colors = new List<int>();
             colors.Add(24500);
             scheduler.Start(colors);
@@ -28,13 +34,20 @@ namespace TeamCityTrafficLightsConfigurator.Management
 
         public void PushNewResults(int lightId, List<int> colors)
         {
-            var schedule = schedulers.Where(c => c.lightId == lightId).FirstOrDefault();
+            var schedule = schedulers[lightId];
             schedule.NewColors(colors);
         }
 
+        public void StopAll()
+        {
+            foreach (var scheduler in schedulers)
+            {
+                scheduler.Value.Stop();
+            }
+        }
         private SchedulerManager() { }
 
-        private List<Scheduler> schedulers = new List<Scheduler>();
+        private Dictionary<int, Scheduler> schedulers = new Dictionary<int, Scheduler>();
         private static readonly Lazy<SchedulerManager> lazy = new Lazy<SchedulerManager>(() => new SchedulerManager());
     }
 
@@ -67,7 +80,7 @@ namespace TeamCityTrafficLightsConfigurator.Management
         {
             this.colors = new List<int>(colors);
 
-            var aTimer = new Timer(OnTimedEventThreading, null, 1000, 1000);
+            timer = new Timer(OnTimedEventThreading, null, 1000, 1000);
             
             
         }
@@ -87,6 +100,15 @@ namespace TeamCityTrafficLightsConfigurator.Management
         {
             OnTimedEvent(null, null);
         }
+
+        public void Stop()
+        {
+            if (null != timer)
+            {
+                timer.Dispose();
+            }
+        }
+
         private void OnTimedEvent(object source, /*Elapsed*/EventArgs e)
         {
             int c;
@@ -101,10 +123,14 @@ namespace TeamCityTrafficLightsConfigurator.Management
 
             c = colors[currentColorIndex];
             }
-            Debug.WriteLine("Complete: colour " + currentColorIndex + " for " + lightId);
-            lights.ChangeColour(username, lightId, 255, 110, c);
             currentColorIndex++;
-            
+            Debug.WriteLine("Complete: colour " + currentColorIndex + " for " + lightId);
+            Stopwatch starting = new Stopwatch();
+            starting.Start();
+            lights.ChangeColour(username, lightId, 255, 110, c);
+            starting.Stop();
+            Debug.WriteLine("Change took " + starting.ElapsedMilliseconds);
+
         }
 
         private int interval;
