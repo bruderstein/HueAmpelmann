@@ -8,13 +8,6 @@ namespace BuildHueService
 {
     public class RuleProcessor
     {
-        private List<NotifyRule> m_rules;
-
-        public RuleProcessor()
-        {
-            
-        }
-
         public IEnumerable<LightStatus> GetCurrentStates()
         {
             // This is a dictionary of lights, to state colours, to build colours.  So each light has a state color, and then a list of build colors.
@@ -44,14 +37,6 @@ namespace BuildHueService
             }
         }
 
-        private bool RulePasses(NotifyRule notifyRule, BuildState buildState)
-        {
-            if (notifyRule.BuildResult == buildState.BuildResult)
-            {
-                return true;
-            }
-            return false;
-        }
 
         private class LightResults
         {
@@ -69,13 +54,15 @@ namespace BuildHueService
                 }
             }
 
-            public void AddResult(int lightID, LightColour stateColor, LightColour buildColor)
+            public void AddResult(int lightId, LightColour stateColor, LightColour buildColor)
             {
                 Dictionary<LightColour, List<LightColour>> stateDictionary;
-                if (!m_results.TryGetValue(lightID, out stateDictionary))
+
+                // We should always have the lights inserted, but just in case...
+                if (!m_results.TryGetValue(lightId, out stateDictionary))
                 {
                     stateDictionary = new Dictionary<LightColour, List<LightColour>>();
-                    m_results.Add(lightID, stateDictionary);
+                    m_results.Add(lightId, stateDictionary);
                 }
 
                 List<LightColour> buildColors;
