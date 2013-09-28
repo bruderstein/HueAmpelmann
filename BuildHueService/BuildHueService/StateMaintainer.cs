@@ -32,6 +32,11 @@ namespace BuildHueService
             m_states[build] = buildResult;
         }
 
+
+        public static void ClearStates()
+        {
+            s_instance = null;
+        }
         public IEnumerable<BuildState> GetBuildStates()
         {
             foreach (var buildState in m_states)

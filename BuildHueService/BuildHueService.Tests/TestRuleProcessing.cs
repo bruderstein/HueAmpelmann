@@ -16,6 +16,7 @@ namespace BuildHueService
         private LightColour m_red = new LightColour(Color.Red);
         private LightColour m_orange = new LightColour(Color.Orange);
         private LightColour m_blue = new LightColour(Color.Blue);
+        private LightColour m_pink = new LightColour(Color.Pink);
 
         [SetUp]
         public void SetUp()
@@ -34,6 +35,13 @@ namespace BuildHueService
                 Lights = new List<int>(new[] {1, 2}),
                 Name = "test.build"
             });
+            HueConfiguration.Instance.SetBuildConfiguration(
+                new BuildConfiguration()
+                {
+                    Colour = m_pink,
+                    Lights = new List<int>(),
+                    Name = "test.buildnolights"
+                });
 
             HueConfiguration.Instance.SetLightIds(new[] {1, 2, 3});
 
@@ -81,6 +89,30 @@ namespace BuildHueService
             Assert.That(lightStatuses[2].Colours.Count, Is.EqualTo(1));
             Assert.That(lightStatuses[2].Colours[0], Is.EqualTo(m_green));
 
+            
+        }
+
+
+        [Test]
+        public void TestBuildNoLights()
+        {
+
+            var ruleProcessor = new RuleProcessor();
+
+            StateMaintainer.Instance.ChangeState("test.buildnolights", BuildResult.Fail);
+            var lightStatuses = new List<LightStatus>(ruleProcessor.GetCurrentStates());
+            
+            Assert.That(lightStatuses.Count, Is.EqualTo(3));
+            Assert.That(lightStatuses[0].LightId, Is.EqualTo(1));
+            Assert.That(lightStatuses[0].Colours.Count, Is.EqualTo(2));
+            Assert.That(lightStatuses[0].Colours[0], Is.EqualTo(m_red));
+            Assert.That(lightStatuses[0].Colours[1], Is.EqualTo(m_pink));
+            Assert.That(lightStatuses[1].Colours.Count, Is.EqualTo(2));
+            Assert.That(lightStatuses[1].Colours[0], Is.EqualTo(m_red));
+            Assert.That(lightStatuses[1].Colours[1], Is.EqualTo(m_pink));
+            Assert.That(lightStatuses[2].Colours.Count, Is.EqualTo(2));
+            Assert.That(lightStatuses[2].Colours[0], Is.EqualTo(m_red));
+            Assert.That(lightStatuses[2].Colours[1], Is.EqualTo(m_pink));
             
         }
     }

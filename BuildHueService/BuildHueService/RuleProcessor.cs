@@ -29,9 +29,21 @@ namespace BuildHueService
             {
                 if (buildState.BuildResult != BuildResult.Success)
                 {
-                    foreach (var lightID in buildConfiguration.Lights)
+                    if (buildConfiguration.Lights.Count == 0)
                     {
-                        results.AddResult(lightID, HueConfiguration.Instance.ResultStates[buildState.BuildResult], buildConfiguration.Colour);
+                        foreach (var lightId in HueConfiguration.Instance.LightIds)
+                        {
+                            results.AddResult(lightId, HueConfiguration.Instance.ResultStates[buildState.BuildResult],
+                                buildConfiguration.Colour);
+                        }
+                    }
+                    else
+                    {
+                        foreach (var lightID in buildConfiguration.Lights)
+                        {
+                            results.AddResult(lightID, HueConfiguration.Instance.ResultStates[buildState.BuildResult],
+                                buildConfiguration.Colour);
+                        }
                     }
                 }
             }
