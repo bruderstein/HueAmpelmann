@@ -41,21 +41,13 @@ namespace BuildHueService
             Task.Factory.StartNew(() => RunRuleProcess());
         }
 
-        private void RunRuleProcess()
+        public void RunRuleProcess()
         {
             IEnumerable<LightStatus> lightStatuses = m_ruleProcessor.GetCurrentStates();
-            s_log.Info("Sending new colour states");
             foreach (var lightStatus in lightStatuses)
             {
-
-                s_log.Debug("LightID: " + lightStatus.LightId);
-                foreach (var lightColour in lightStatus.Colours)
-                {
-                    s_log.Debug(String.Concat("Colour X ", lightColour.X, " Y ", lightColour.Y));
-                }
-
+                SchedulerManager.Instance.PushNewResults(lightStatus.LightId, lightStatus.Colours);
             }
-            //SchedulerManager.Instance.PushNewResults(lightStatuses);
 
         }
 

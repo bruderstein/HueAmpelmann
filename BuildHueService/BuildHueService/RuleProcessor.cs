@@ -47,6 +47,16 @@ namespace BuildHueService
                     }
                 }
             }
+            else
+            {
+                // No build known, so just hit all lights with a fail
+
+                foreach (var lightId in HueConfiguration.Instance.LightIds)
+                {
+                    results.AddResult(lightId, HueConfiguration.Instance.ResultStates[buildState.BuildResult],
+                        HueConfiguration.Instance.ResultStates[buildState.BuildResult]);
+                }
+            }
         }
 
 

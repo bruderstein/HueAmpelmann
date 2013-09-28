@@ -66,6 +66,7 @@
     </Compile>
     <Compile Include="BuildResult.cs" />
     <Compile Include="BuildState.cs" />
+    <Compile Include="ConfigChange.cs" />
     <Compile Include="DesktopServiceForm.cs">
       <SubType>Form</SubType>
     </Compile>

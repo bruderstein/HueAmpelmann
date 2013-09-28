@@ -94,6 +94,7 @@ namespace TeamCityTrafficLightsConfigurator.Management
                 this.colors = new List<LightColour>(colours);
                 this.currentColorIndex = 0;
 
+                timer.Change(0, this.interval);
             }
         }
 
@@ -114,6 +115,7 @@ namespace TeamCityTrafficLightsConfigurator.Management
         {
             LightColour c;
             Debug.WriteLine("locking " + lightId);
+            bool isSingleColour = false;
             lock (padlock)
             {
                 if (currentColorIndex >= colors.Count)
@@ -122,7 +124,11 @@ namespace TeamCityTrafficLightsConfigurator.Management
                 }
                 Debug.WriteLine("grabbing colour " + currentColorIndex + " for " + lightId);
 
-            c = colors[currentColorIndex];
+                c = colors[currentColorIndex];
+                if (colors.Count == 1)
+                {
+                    isSingleColour = true;
+                }
             }
             currentColorIndex++;
             Debug.WriteLine("Complete: colour " + currentColorIndex + " for " + lightId);
@@ -131,6 +137,11 @@ namespace TeamCityTrafficLightsConfigurator.Management
             lights.ChangeColour(username, lightId, 255, 110, c);
             starting.Stop();
             Debug.WriteLine("Change took " + starting.ElapsedMilliseconds);
+
+            if (isSingleColour)
+            {
+                timer.Change(Timeout.Infinite, Timeout.Infinite);
+            }
 
         }
 
