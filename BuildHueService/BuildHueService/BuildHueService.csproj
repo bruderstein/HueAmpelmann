@@ -73,6 +73,7 @@
       <DependentUpon>DesktopServiceForm.cs</DependentUpon>
     </Compile>
     <Compile Include="HueConfiguration.cs" />
+    <Compile Include="IConfigChange.cs" />
     <Compile Include="IStateNotify.cs" />
     <Compile Include="LightColour.cs" />
     <Compile Include="Lights.cs" />

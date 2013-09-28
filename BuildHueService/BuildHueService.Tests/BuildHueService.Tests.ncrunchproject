@@ -50,5 +50,8 @@
     <NamedTestSelector>
       <TestName>LightsUnitTest.UnitTest1.TurnOn_ShouldPass</TestName>
     </NamedTestSelector>
+    <NamedTestSelector>
+      <TestName>LightsUnitTest.UnitTest1.SchedulerManager_</TestName>
+    </NamedTestSelector>
   </IgnoredTests>
 </ProjectConfiguration>
