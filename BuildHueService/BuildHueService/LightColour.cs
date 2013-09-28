@@ -10,12 +10,19 @@ namespace BuildHueService
     {
         private double m_x;
         private double m_y;
+        private int m_hue;
 
         public LightColour()
         {
             // White, ish!
             m_x = 0.35;
             m_y = 0.35;
+        }
+
+        public LightColour(int hue)
+        {
+            m_hue = hue;
+
         }
 
 
@@ -45,6 +52,11 @@ namespace BuildHueService
         public double Y
         {
             get { return m_y; }
+        }
+
+        public int Hue
+        {
+            get { return m_hue; }
         }
     }
 }

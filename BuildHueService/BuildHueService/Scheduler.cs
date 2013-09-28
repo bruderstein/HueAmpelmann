@@ -1,4 +1,5 @@
-﻿using System;
+﻿using BuildHueService;
+using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
@@ -22,8 +23,8 @@ namespace TeamCityTrafficLightsConfigurator.Management
         {
             var scheduler = new Scheduler(lightId, interval, ip, username);
             schedulers.Add(lightId, scheduler);
-            var colors = new List<int>();
-            colors.Add(24500);
+            var colors = new List<LightColour>();
+            colors.Add(new LightColour(25500));
             scheduler.Start(colors);
         }
 
@@ -32,19 +33,20 @@ namespace TeamCityTrafficLightsConfigurator.Management
 
         }
 
-        public void PushNewResults(int lightId, List<int> colors)
+        public void PushNewResults(int lightId, List<LightColour> colors)
         {
-            var schedule = schedulers[lightId];
+             var schedule = schedulers[lightId];
             schedule.NewColors(colors);
         }
 
-        public void StopAll()
+ 	public void StopAll()
         {
             foreach (var scheduler in schedulers)
             {
                 scheduler.Value.Stop();
             }
         }
+
         private SchedulerManager() { }
 
         private Dictionary<int, Scheduler> schedulers = new Dictionary<int, Scheduler>();
@@ -76,25 +78,24 @@ namespace TeamCityTrafficLightsConfigurator.Management
         //}
 
 
-        public void Start(List<int> colors)
+        public void Start(List<LightColour> colors)
         {
-            this.colors = new List<int>(colors);
+            this.colors = new List<LightColour>(colors);
 
             timer = new Timer(OnTimedEventThreading, null, 1000, 1000);
             
             
         }
 
-        public void NewColors(List<int> colors)
+        public void NewColors(List<LightColour> colours)
         {
             lock (padlock)
             {
-                this.colors = new List<int>(colors);
+                this.colors = new List<LightColour>(colours);
                 this.currentColorIndex = 0;
 
             }
         }
-
 
         private void OnTimedEventThreading(object target)
         {
@@ -111,7 +112,7 @@ namespace TeamCityTrafficLightsConfigurator.Management
 
         private void OnTimedEvent(object source, /*Elapsed*/EventArgs e)
         {
-            int c;
+            LightColour c;
             Debug.WriteLine("locking " + lightId);
             lock (padlock)
             {
@@ -138,7 +139,7 @@ namespace TeamCityTrafficLightsConfigurator.Management
         private Lights lights;
        
         private string username;
-        private List<int> colors;
+        private List<LightColour> colors;
         private readonly object padlock = new object();
         
 

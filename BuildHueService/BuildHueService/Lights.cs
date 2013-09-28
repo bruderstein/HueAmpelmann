@@ -1,4 +1,5 @@
-﻿using RestSharp;
+﻿using BuildHueService;
+using RestSharp;
 using System;
 using System.Collections.Generic;
 using System.Drawing;
@@ -183,6 +184,27 @@ namespace TeamCityTrafficLightsConfigurator.Management
             
             //todo return normal result
             return "";
+        }
+
+        public string ChangeColour(string developerName, int lightId, int sat, int bri, LightColour hue)
+        {
+            var client = new RestClient(bridgeIP);
+
+            var request = new RestRequest("api/{username}/lights/{lightId}/state", Method.PUT);
+            request.AddUrlSegment("username", developerName);
+            request.AddUrlSegment("lightId", lightId.ToString());
+
+
+            request.RequestFormat = DataFormat.Json;
+            request.AddBody(new { on = true, sat = sat, bri = bri, hue = hue.Hue, transitiontime = 2 });
+
+            request.OnBeforeDeserialization = resp => { resp.ContentType = "application/json"; };
+
+            IRestResponse response = client.Execute(request);
+            var content = response.Content;
+
+            //todo return normal result
+            return content;
         }
 
 

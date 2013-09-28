@@ -1,20 +1,20 @@
 ﻿using System;
-using NUnit.Framework;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 using TeamCityTrafficLightsConfigurator.Management;
 using System.Threading;
 using System.Drawing;
 using System.Collections.Generic;
-using NUnit.Framework;
+
 using BuildHueService;
 
 namespace LightsUnitTest
 {
-    [TestFixture]
+    [TestClass]
     public class UnitTest1
     {
 
         private static string ip = "http://192.168.1.134";
-        [Test]
+        [TestMethod]
         public void FirstTest_ShouldPass()
         {
             //Arrange
@@ -27,7 +27,7 @@ namespace LightsUnitTest
             //Assert
         }
 
-        [Test]
+        [TestMethod]
         public void CreateNewDeveloper_ShouldPass()
         {
             //Arrange
@@ -40,7 +40,7 @@ namespace LightsUnitTest
             //Assert
         }
 
-        [Test]
+        [TestMethod]
         public void GetAll_ShouldPass()
         {
             //Arrange
@@ -53,7 +53,7 @@ namespace LightsUnitTest
             //Assert
         }
 
-        [Test]
+        [TestMethod]
         public void Get_ShouldPass()
         {
             //Arrange
@@ -67,7 +67,7 @@ namespace LightsUnitTest
             //Assert
         }
 
-        [Test]
+        [TestMethod]
         public void TurnOn_ShouldPass()
         {
             //Arrange
@@ -81,7 +81,7 @@ namespace LightsUnitTest
             //Assert
         }
 
-        [Test]
+        [TestMethod]
         public void TurnOff_ShouldPass()
         {
             //Arrange
@@ -95,7 +95,7 @@ namespace LightsUnitTest
             //Assert
         }
 
-        [Test]
+        [TestMethod]
         public void GetIds_ShouldPass()
         {
             //Arrange
@@ -109,7 +109,8 @@ namespace LightsUnitTest
             Assert.AreEqual(result.Count, 3);
         }
 
-        [Test]
+
+        [TestMethod]
         public void ChangeColour_ShouldPass()
         {
             //Arrange
@@ -117,7 +118,7 @@ namespace LightsUnitTest
             var lights = new Lights(ip);
 
             //Act
-            var result = lights.ChangeColour("coolDeveloper", 1 , 255, 255, 20);
+            var result = lights.ChangeColour("coolDeveloper", 1, 255, 255, 20);
             Thread.Sleep(1000);
             lights.ChangeColour("coolDeveloper", 1, 255, 255, 46920);
             Thread.Sleep(1000);
@@ -135,7 +136,7 @@ namespace LightsUnitTest
             //Assert
         }
 
-        [Test]
+        [TestMethod]
         public void Scheduler_()
         {
             //Arrange
@@ -149,12 +150,11 @@ namespace LightsUnitTest
             scheduler.Start(colors);
             Thread.Sleep(10000);
 
-            scheduler.Stop();
 
             //Assert
         }
 
-        [Test]
+        [TestMethod]
         public void SchedulerManager_()
         {
             //Arrange
@@ -162,20 +162,21 @@ namespace LightsUnitTest
             scheduler.CreateScheduler(1, 1000, ip, "coolDeveloper");
             scheduler.CreateScheduler(2, 1000, ip, "coolDeveloper");
             scheduler.CreateScheduler(3, 1000, ip, "coolDeveloper");
+
             var colors1 = new List<LightColour>();
             colors1.Add(new LightColour(0));
-            colors1.Add(new LightColour(46000));
+            colors1.Add(new LightColour(46920));
             //Thread.Sleep(new LightColour(System.Drawing.ColorTranslator.FromHtml("#FFFFFF")));
             scheduler.PushNewResults(1, colors1);
 
             var colors2 = new List<LightColour>();
             colors2.Add(new LightColour(0));
-            colors2.Add(new LightColour(13000));
+            colors2.Add(new LightColour(12750));
             scheduler.PushNewResults(2, colors2);
 
             var colors3 = new List<LightColour>();
             colors3.Add(new LightColour(0));
-            colors3.Add(new LightColour(56000));
+            colors3.Add(new LightColour(56100));
             scheduler.PushNewResults(3, colors3);
             //1, 1000, ip, "coolDeveloper"
 
@@ -183,14 +184,12 @@ namespace LightsUnitTest
             Thread.Sleep(30000);
 
 
-            scheduler.StopAll();
             //Assert
         }
-        
-        [Test]
-        public void Test1()
-        {
 
+        [TestMethod]
+        public void TestMethod1()
+        {
             //Arrange
             var ip = "";
             var test = new Lights(ip);
