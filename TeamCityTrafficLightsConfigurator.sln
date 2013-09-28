@@ -1,0 +1,26 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Express 2012 for Web
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TeamCityTrafficLightsConfigurator", "TeamCityTrafficLightsConfigurator\TeamCityTrafficLightsConfigurator.csproj", "{C1758E6F-3331-49D3-A3D4-3C7465E1D788}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LightsUnitTest", "LightsUnitTest\LightsUnitTest.csproj", "{E3D59D69-39F0-4414-A990-B08B04815801}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{C1758E6F-3331-49D3-A3D4-3C7465E1D788}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C1758E6F-3331-49D3-A3D4-3C7465E1D788}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C1758E6F-3331-49D3-A3D4-3C7465E1D788}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C1758E6F-3331-49D3-A3D4-3C7465E1D788}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E3D59D69-39F0-4414-A990-B08B04815801}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E3D59D69-39F0-4414-A990-B08B04815801}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E3D59D69-39F0-4414-A990-B08B04815801}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E3D59D69-39F0-4414-A990-B08B04815801}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal
