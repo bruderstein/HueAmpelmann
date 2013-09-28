@@ -33,6 +33,7 @@ namespace BuildHueService
         {
             ResultStates = new Dictionary<BuildResult, LightColour>();
             BuildConfigurations = new Dictionary<string, BuildConfiguration>(StringComparer.InvariantCultureIgnoreCase);
+            LightIds = new List<int>();
         }
 
         public void SetBuildConfiguration(BuildConfiguration buildConfiguration)

@@ -65,15 +65,11 @@
       <DependentUpon>DesktopServiceForm.cs</DependentUpon>
     </Compile>
     <Compile Include="HueConfiguration.cs" />
-    <Compile Include="HueEffect.cs" />
-    <Compile Include="HueState.cs" />
-    <Compile Include="Interface1.cs" />
+    <Compile Include="IStateNotify.cs" />
     <Compile Include="LightColour.cs" />
     <Compile Include="LightStatus.cs" />
-    <Compile Include="NotifyRule.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="RuleFilter.cs" />
     <Compile Include="RuleProcessor.cs" />
     <Compile Include="SmartServiceBase.cs">
       <SubType>Component</SubType>
